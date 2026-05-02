@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\AdminBranchController;
 use App\Http\Controllers\Admin\AdminEmployeeController;
 use App\Http\Controllers\Admin\AdminCarModelController;
 use App\Http\Controllers\Admin\AdminGlassPositionController;
+use App\Http\Controllers\Admin\AdminWithdrawalController;
 use App\Http\Controllers\Employee\EmployeeDashboardController;
 use App\Http\Controllers\Employee\ItemController;
 use App\Http\Controllers\Employee\SaleController;
@@ -48,6 +49,10 @@ Route::middleware('auth:admin')->prefix('admin')->name('admin.')->group(function
     // Reports export
     Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
     Route::get('/reports/pdf', [ReportController::class, 'exportPdf'])->name('reports.pdf');
+
+    // Withdrawals (full-fee withdrawal)
+    Route::get('/withdrawals', [AdminWithdrawalController::class, 'index'])->name('withdrawals.index');
+    Route::post('/withdrawals/full', [AdminWithdrawalController::class, 'withdrawFull'])->name('withdrawals.full');
 });
 
 // ==========================================

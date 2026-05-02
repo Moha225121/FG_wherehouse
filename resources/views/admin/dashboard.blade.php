@@ -44,4 +44,29 @@
         </a>
     </div>
 </div>
+
+<!-- Withdrawal panel -->
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title"><i class="fa-solid fa-sack-dollar"></i> المبلغ المتاح للسحب</h5>
+                <p class="lead fw-bold">{{ number_format($availableAmount ?? 0, 2) }} دينار</p>
+                @if(isset($lastWithdrawal) && $lastWithdrawal)
+                    <p class="text-muted">آخر سحب: {{ $lastWithdrawal->withdrawn_at ? $lastWithdrawal->withdrawn_at : $lastWithdrawal->created_at }}</p>
+                @endif
+
+                <form action="{{ route('admin.withdrawals.full') }}" method="POST">
+                    @csrf
+                    <div class="mb-2">
+                        <input type="text" name="note" class="form-control" placeholder="ملاحظة (اختياري)">
+                    </div>
+                    <button class="btn btn-danger w-100" type="submit" {{ (empty($availableAmount) || $availableAmount <= 0) ? 'disabled' : '' }}>
+                        <i class="fa-solid fa-hand-holding-dollar"></i> سحب كامل المبلغ المتاح
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Sale;
 use App\Models\ExternalSale;
 use App\Models\Branch;
+use App\Models\AdminWithdrawal;
 
 class AdminDashboardController extends Controller
 {
@@ -24,6 +25,16 @@ class AdminDashboardController extends Controller
         // Count of active branches for the dashboard
         $branchesCount = Branch::count();
 
-        return view('admin.dashboard', compact('totalDailyRevenue', 'todaySales', 'todayExternalSales', 'branchesCount'));
+        // Available amount for withdrawal = all completed sales + external sales - previous withdrawals
+        $salesTotal = Sale::where('status', 'completed')->sum('sold_price');
+        $externalTotal = ExternalSale::sum('amount');
+        $withdrawn = AdminWithdrawal::sum('amount');
+
+        $availableAmount = round(($salesTotal + $externalTotal) - $withdrawn, 2);
+
+        // Last withdrawal time
+        $lastWithdrawal = AdminWithdrawal::orderBy('withdrawn_at', 'desc')->first();
+
+        return view('admin.dashboard', compact('totalDailyRevenue', 'todaySales', 'todayExternalSales', 'branchesCount', 'availableAmount', 'lastWithdrawal'));
     }
 }

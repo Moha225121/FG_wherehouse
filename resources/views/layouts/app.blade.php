@@ -86,6 +86,11 @@
             <a class="navbar-brand" href="#">
                 <i class="fa-solid fa-car-side"></i> مستودع الزجاج
             </a>
+            <div class="ms-3 text-white small d-none d-lg-block">
+                <!-- Display server date & time -->
+                <i class="fa-regular fa-clock"></i>
+                {{ now()->format('Y-m-d H:i:s') }}
+            </div>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
