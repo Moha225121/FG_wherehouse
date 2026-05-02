@@ -15,7 +15,8 @@ use App\Http\Controllers\Employee\ExternalSaleController;
 use App\Http\Controllers\Employee\ReportController;
 
 // Authentication Routes
-Route::get('/',[AuthController::class, 'showLoginForm'])->name('login.form');
+Route::redirect('/', '/login');
+Route::get('/login',[AuthController::class, 'showLoginForm'])->name('login.form');
 Route::post('/login',[AuthController::class, 'login'])->name('login');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
