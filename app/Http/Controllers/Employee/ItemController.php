@@ -96,6 +96,9 @@ class ItemController extends Controller
             // 1. Deduct from stock
             $item->decrement('stock_quantity', $request->quantity);
 
+            // Keep a running damaged total for admin inventory visibility
+            $item->increment('damaged_quantity', $request->quantity);
+
             // 2. Log as damaged
             StockMovement::create([
                 'itemID' => $item->id,

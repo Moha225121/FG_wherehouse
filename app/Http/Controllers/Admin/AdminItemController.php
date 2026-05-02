@@ -101,4 +101,25 @@ class AdminItemController extends Controller
 
         return back()->with('success', 'تم تحديث سعر الجملة للصنف بنجاح.');
     }
+
+    public function updateInventory(Request $request, Item $item)
+    {
+        $request->validate([
+            'stock_quantity' => 'required|integer|min:0',
+            'damaged_quantity' => 'required|integer|min:0',
+            'shelf_number' => 'nullable|string|max:50',
+        ], [], [
+            'stock_quantity' => 'الكمية المتوفرة',
+            'damaged_quantity' => 'المخزون التالف',
+            'shelf_number' => 'مكان الطارمة',
+        ]);
+
+        $item->update([
+            'stock_quantity' => $request->stock_quantity,
+            'damaged_quantity' => $request->damaged_quantity,
+            'shelf_number' => $request->shelf_number,
+        ]);
+
+        return back()->with('success', 'تم تحديث الكمية والتالف ومكان الطارمة بنجاح.');
+    }
 }

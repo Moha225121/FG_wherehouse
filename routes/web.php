@@ -37,6 +37,7 @@ Route::middleware('auth:admin')->prefix('admin')->name('admin.')->group(function
     Route::get('/items', [App\Http\Controllers\Admin\AdminItemController::class, 'index'])->name('items.index');
     Route::get('/items/create', [App\Http\Controllers\Admin\AdminItemController::class, 'create'])->name('items.create');
     Route::post('/items', [App\Http\Controllers\Admin\AdminItemController::class, 'store'])->name('items.store');
+    Route::put('/items/{item}/inventory',[App\Http\Controllers\Admin\AdminItemController::class, 'updateInventory'])->name('items.inventory.update');
     Route::put('/items/{item}/retail',[App\Http\Controllers\Admin\AdminItemController::class, 'updateRetail'])->name('items.retail.update');
     Route::put('/items/{item}/wholesale',[App\Http\Controllers\Admin\AdminItemController::class, 'updateWholesale'])->name('items.wholesale.update');
 
