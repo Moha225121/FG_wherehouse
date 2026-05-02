@@ -14,7 +14,7 @@
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label class="form-label fw-bold">نوع السيارة *</label>
-                            <select name="carModelID" class="form-select" required>
+                            <select name="carModelID" class="form-select searchable-select" required>
                                 <option value="" disabled selected>-- اختر نوع السيارة --</option>
                                 @foreach($carModels as $car)
                                     <option value="{{ $car->id }}">{{ $car->name }}</option>
@@ -23,7 +23,7 @@
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-bold">جهة / موقع الزجاج *</label>
-                            <select name="glassPositionID" class="form-select" required>
+                            <select name="glassPositionID" class="form-select searchable-select" required>
                                 <option value="" disabled selected>-- اختر موقع الزجاج --</option>
                                 @foreach($glassPositions as $pos)
                                     <option value="{{ $pos->id }}">{{ $pos->name }}</option>

@@ -9,7 +9,7 @@
     <div class="card-body">
         <form method="GET" action="{{ route('admin.pos') }}" class="row g-3">
             <div class="col-md-4">
-                <select name="branchID" class="form-select">
+                <select name="branchID" class="form-select searchable-select">
                     <option value="">كل الفروع</option>
                     @foreach($branches as $branch)
                         <option value="{{ $branch->id }}" {{ request('branchID') == $branch->id ? 'selected' : '' }}>{{ $branch->name }}</option>

@@ -18,7 +18,7 @@
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-bold text-primary">الفرع التابع له *</label>
-                            <select name="branchID" class="form-select" required>
+                            <select name="branchID" class="form-select searchable-select" required>
                                 <option value="" disabled selected>-- حدد الفرع --</option>
                                 @foreach($branches as $branch)
                                     <option value="{{ $branch->id }}" {{ old('branchID') == $branch->id ? 'selected' : '' }}>
