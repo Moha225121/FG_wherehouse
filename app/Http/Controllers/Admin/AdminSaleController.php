@@ -93,7 +93,7 @@ class AdminSaleController extends Controller
             $item->decrement('stock_quantity', 1);
         });
 
-        return redirect()->route('admin.sales.create')->with('success', 'تمت عملية البيع بواسطة الإدارة بنجاح.');
+        return redirect()->route('admin.pos')->with('success', 'تمت عملية البيع بواسطة الإدارة بنجاح.');
     }
 
     public function undoSale(Sale $sale)
