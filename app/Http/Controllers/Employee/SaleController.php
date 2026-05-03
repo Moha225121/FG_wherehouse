@@ -7,6 +7,7 @@ use App\Models\Item;
 use App\Models\Sale;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class SaleController extends Controller
 {
@@ -34,6 +35,17 @@ class SaleController extends Controller
 
     public function store(Request $request)
     {
+        // DEBUG: log session + cookie info to help track unexpected logout
+        try {
+            Log::info('[DEBUG] Employee Sale store start', [
+                'session_id' => session()->getId(),
+                'session_all' => session()->all(),
+                'cookies' => $request->headers->get('cookie'),
+                'x_forwarded_proto' => $request->header('x-forwarded-proto'),
+            ]);
+        } catch (\Throwable $e) {
+            // ignore logging errors in production debug helper
+        }
         $request->validate([
             'itemID' => 'required|exists:items,id',
             'note' => 'nullable|string'
@@ -76,6 +88,13 @@ class SaleController extends Controller
             // Deduct Stock
             $item->decrement('stock_quantity', 1);
         });
+
+        try {
+            Log::info('[DEBUG] Employee Sale store end', [
+                'session_id' => session()->getId(),
+                'session_all' => session()->all(),
+            ]);
+        } catch (\Throwable $e) {}
 
         return redirect()->back()->with('success', 'تمت عملية البيع بنجاح.');
     }

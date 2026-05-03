@@ -8,6 +8,7 @@ use App\Models\Item;
 use App\Models\Branch;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class AdminSaleController extends Controller
 {
@@ -48,6 +49,16 @@ class AdminSaleController extends Controller
 
     public function store(Request $request)
     {
+        // DEBUG: log session + cookie info to help track unexpected logout
+        try {
+            Log::info('[DEBUG] Admin Sale store start', [
+                'session_id' => session()->getId(),
+                'session_all' => session()->all(),
+                'cookies' => $request->headers->get('cookie'),
+                'x_forwarded_proto' => $request->header('x-forwarded-proto'),
+            ]);
+        } catch (\Throwable $e) {}
+
         $request->validate([
             'itemID' => 'required|exists:items,id',
             'sold_price' => 'nullable|numeric|min:0',
@@ -92,6 +103,13 @@ class AdminSaleController extends Controller
 
             $item->decrement('stock_quantity', 1);
         });
+
+        try {
+            Log::info('[DEBUG] Admin Sale store end', [
+                'session_id' => session()->getId(),
+                'session_all' => session()->all(),
+            ]);
+        } catch (\Throwable $e) {}
 
         return redirect()->route('admin.pos')->with('success', 'تمت عملية البيع بواسطة الإدارة بنجاح.');
     }
