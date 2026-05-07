@@ -20,6 +20,7 @@ class AuthController extends Controller
 
         // Check Admin first
         if (Auth::guard('admin')->attempt($credentials)) {
+            $request->session()->regenerate();
             return redirect()->route('admin.dashboard')->with('success', 'تم تسجيل الدخول كمسؤول بنجاح.');
         }
 
@@ -30,6 +31,7 @@ class AuthController extends Controller
                 Auth::guard('employee')->logout();
                 return back()->withErrors(['username' => 'هذا الحساب غير مفعل.']);
             }
+            $request->session()->regenerate();
             return redirect()->route('employee.dashboard')->with('success', 'تم تسجيل الدخول بنجاح.');
         }
 
