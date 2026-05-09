@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Withdrawal extends Model
 {
-    protected $fillable = ['employeeID', 'amount', 'date', 'note'];
+    protected $fillable = ['type', 'employeeID', 'amount', 'date', 'note'];
 
     public function employee()
     {

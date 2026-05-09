@@ -29,18 +29,20 @@ class AdminEmployeeController extends Controller
         $request->validate([
             'branchID' => 'required|exists:branches,id',
             'name' => 'required|string|max:255',
-            'username' => 'required|string|unique:employees,username',
-            'password' => 'required|string|min:6',
+            'username' => 'nullable|string|unique:employees,username',
+            'password' => 'nullable|string|min:6',
             'status' => 'required|in:active,inactive',
             'salary' => 'nullable|numeric|min:0',
             'daily_withdrawal_limit' => 'nullable|numeric|min:0',
+            'salary_reset_day' => 'required|integer|min:1|max:28',
         ], [], [
             'branchID' => 'الفرع',
             'name' => 'اسم الموظف',
             'username' => 'اسم المستخدم',
             'password' => 'كلمة المرور',
             'salary' => 'المرتب',
-            'daily_withdrawal_limit' => 'حد السحب اليومي'
+            'daily_withdrawal_limit' => 'حد السحب اليومي',
+            'salary_reset_day' => 'يوم تصفية المرتب'
         ]);
 
         $salary = $request->input('salary', 0);
@@ -49,11 +51,12 @@ class AdminEmployeeController extends Controller
             'branchID' => $request->branchID,
             'name' => $request->name,
             'username' => $request->username,
-            'password' => Hash::make($request->password),
+            'password' => $request->filled('password') ? Hash::make($request->password) : null,
             'status' => $request->status,
             'salary' => $salary,
             'remaining_salary' => $salary,
             'daily_withdrawal_limit' => $request->input('daily_withdrawal_limit', 0),
+            'salary_reset_day' => $request->input('salary_reset_day', 1),
         ]);
 
         return redirect()->route('admin.employees.index')->with('success', 'تم إضافة الموظف بنجاح.');
@@ -70,17 +73,19 @@ class AdminEmployeeController extends Controller
         $request->validate([
             'branchID' => 'required|exists:branches,id',
             'name' => 'required|string|max:255',
-            'username' => 'required|string|unique:employees,username,' . $employee->id,
+            'username' => 'nullable|string|unique:employees,username,' . $employee->id,
             'password' => 'nullable|string|min:6',
             'status' => 'required|in:active,inactive',
             'salary' => 'nullable|numeric|min:0',
             'daily_withdrawal_limit' => 'nullable|numeric|min:0',
+            'salary_reset_day' => 'required|integer|min:1|max:28',
         ], [], [
             'salary' => 'المرتب',
-            'daily_withdrawal_limit' => 'حد السحب اليومي'
+            'daily_withdrawal_limit' => 'حد السحب اليومي',
+            'salary_reset_day' => 'يوم تصفية المرتب'
         ]);
 
-        $data = $request->only(['branchID', 'name', 'username', 'status', 'salary', 'daily_withdrawal_limit']);
+        $data = $request->only(['branchID', 'name', 'username', 'status', 'salary', 'daily_withdrawal_limit', 'salary_reset_day']);
         
         if ($request->filled('password')) {
             $data['password'] = Hash::make($request->password);

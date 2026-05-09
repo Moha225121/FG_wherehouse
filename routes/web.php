@@ -182,9 +182,15 @@ Route::middleware('auth:admin')->prefix('admin')->name('admin.')->group(function
     Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
     Route::get('/reports/pdf', [ReportController::class, 'exportPdf'])->name('reports.pdf');
 
-    // Withdrawals (full-fee withdrawal)
+    // Withdrawals (total sales withdrawal)
     Route::get('/withdrawals', [AdminWithdrawalController::class, 'index'])->name('withdrawals.index');
     Route::post('/withdrawals/full', [AdminWithdrawalController::class, 'withdrawFull'])->name('withdrawals.full');
+
+    // Salaries and Shop Expenses
+    Route::get('/expenses', [App\Http\Controllers\Admin\ExpenseController::class, 'index'])->name('expenses.index');
+    Route::post('/expenses', [App\Http\Controllers\Admin\ExpenseController::class, 'store'])->name('expenses.store');
+    Route::delete('/expenses/{withdrawal}', [App\Http\Controllers\Admin\ExpenseController::class, 'destroy'])->name('expenses.destroy');
+    Route::post('/expenses/reset', [App\Http\Controllers\Admin\ExpenseController::class, 'resetSalaries'])->name('expenses.reset');
 });
 
 // ==========================================

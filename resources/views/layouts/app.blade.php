@@ -109,6 +109,7 @@
     <li class="nav-item"><a class="nav-link" href="{{ route('admin.items.index') }}">المخزون المركزي</a></li>
     <li class="nav-item"><a class="nav-link" href="{{ route('admin.items.create') }}">إضافة مخزون</a></li>
     <li class="nav-item"><a class="nav-link" href="{{ route('admin.reports.index') }}">التقارير</a></li>
+    <li class="nav-item"><a class="nav-link" href="{{ route('admin.expenses.index') }}">السحوبات والمصروفات</a></li>
     <li class="nav-item"><a class="nav-link" href="{{ route('admin.branches.index') }}">الفروع</a></li>
     <li class="nav-item"><a class="nav-link" href="{{ route('admin.employees.index') }}">الموظفين</a></li>
     <li class="nav-item"><a class="nav-link" href="{{ route('admin.car-models.index') }}">أنواع السيارات</a></li>

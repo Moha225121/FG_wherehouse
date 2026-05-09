@@ -31,12 +31,12 @@
 
                     <div class="row mb-4">
                         <div class="col-md-4">
-                            <label class="form-label fw-bold">اسم المستخدم (للدخول) *</label>
-                            <input type="text" name="username" class="form-control" required value="{{ old('username') }}" dir="ltr">
+                            <label class="form-label fw-bold">اسم المستخدم (للدخول)</label>
+                            <input type="text" name="username" class="form-control" value="{{ old('username') }}" dir="ltr" placeholder="اختياري">
                         </div>
                         <div class="col-md-4">
-                            <label class="form-label fw-bold">كلمة المرور *</label>
-                            <input type="password" name="password" class="form-control" required minlength="6" dir="ltr">
+                            <label class="form-label fw-bold">كلمة المرور</label>
+                            <input type="password" name="password" class="form-control" minlength="6" dir="ltr" placeholder="اختياري">
                         </div>
                         <div class="col-md-4">
                             <label class="form-label fw-bold">حالة الحساب *</label>
@@ -48,13 +48,21 @@
                     </div>
 
                     <div class="row mb-4">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <label class="form-label fw-bold text-success">المرتب الشهري (د.ل) *</label>
                             <input type="number" step="0.01" name="salary" class="form-control" required value="{{ old('salary', 0) }}">
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <label class="form-label fw-bold text-danger">حد السحب اليومي (د.ل) *</label>
                             <input type="number" step="0.01" name="daily_withdrawal_limit" class="form-control" required value="{{ old('daily_withdrawal_limit', 0) }}">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold text-primary">يوم تصفية المرتب *</label>
+                            <select name="salary_reset_day" class="form-select" required>
+                                @for($i=1; $i<=28; $i++)
+                                    <option value="{{ $i }}" {{ old('salary_reset_day', 1) == $i ? 'selected' : '' }}>{{ $i }} في الشهر</option>
+                                @endfor
+                            </select>
                         </div>
                     </div>
 
