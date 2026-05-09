@@ -18,21 +18,20 @@ class AuthController extends Controller
 
         $credentials = $request->only('username', 'password');
 
-        // Check Admin first
         if (Auth::guard('admin')->attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->route('admin.dashboard')->with('success', 'تم تسجيل الدخول كمسؤول بنجاح.');
+            $request->session()->save();
+            return redirect()->intended(route('admin.dashboard'))->with('success', 'تم تسجيل الدخول كمسؤول بنجاح.');
         }
 
-        // Check Employee
         if (Auth::guard('employee')->attempt($credentials)) {
-            // Ensure employee is active
             if (Auth::guard('employee')->user()->status === 'inactive') {
                 Auth::guard('employee')->logout();
                 return back()->withErrors(['username' => 'هذا الحساب غير مفعل.']);
             }
             $request->session()->regenerate();
-            return redirect()->route('employee.dashboard')->with('success', 'تم تسجيل الدخول بنجاح.');
+            $request->session()->save();
+            return redirect()->intended(route('employee.dashboard'))->with('success', 'تم تسجيل الدخول بنجاح.');
         }
 
         return back()->withErrors(['username' => 'بيانات الدخول غير صحيحة.']);

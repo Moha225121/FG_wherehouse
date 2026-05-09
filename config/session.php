@@ -127,7 +127,6 @@ return [
     |
     */
 
-
     'cookie' => env('SESSION_COOKIE', 'fg-wherehouse-session'),
 
     /*

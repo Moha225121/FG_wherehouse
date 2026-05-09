@@ -14,6 +14,22 @@ use App\Http\Controllers\Employee\ItemController;
 use App\Http\Controllers\Employee\SaleController;
 use App\Http\Controllers\Employee\ExternalSaleController;
 use App\Http\Controllers\Employee\ReportController;
+use Illuminate\Support\Facades\Auth;
+
+Route::get('/test-session', function() {
+    $count = \DB::table('sessions')->count();
+    $session_id = session()->getId();
+    $auth = Auth::guard('admin')->check();
+    return response()->json([
+        'sessions_in_db' => $count,
+        'current_session_id' => $session_id,
+        'is_authenticated' => $auth,
+        'session_driver' => config('session.driver'),
+        'session_cookie' => config('session.cookie'),
+        'session_domain' => config('session.domain'),
+        'session_same_site' => config('session.same_site'),
+    ]);
+});
 
 // Authentication Routes
 Route::redirect('/', '/login');
