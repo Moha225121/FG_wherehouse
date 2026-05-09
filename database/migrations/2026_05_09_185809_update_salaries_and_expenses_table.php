@@ -15,7 +15,6 @@ return new class extends Migration
             $table->string('username')->nullable()->change();
             $table->string('password')->nullable()->change();
             $table->integer('salary_reset_day')->default(1)->after('remaining_salary');
-            $table->string('last_reset_month', 7)->nullable()->after('salary_reset_day'); // format: YYYY-MM
         });
 
         Schema::table('withdrawals', function (Blueprint $table) {
