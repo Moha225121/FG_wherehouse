@@ -106,8 +106,8 @@
             @forelse($sales as $sale)
                 <tr>
                     <td class="ltr">{{ $sale->created_at->format('Y-m-d H:i') }}</td>
-                    <td>{{ $sale->item->carModel->name }}</td>
-                    <td>{{ $sale->item->glassPosition->name }}</td>
+                    <td>{{ $sale->item->carModel->name ?? 'غير معروف' }}</td>
+                    <td>{{ $sale->item->glassPosition->name ?? 'غير محدد' }}</td>
                     <td>{{ number_format($sale->system_price, 2) }}</td>
                     <td>{{ number_format($sale->sold_price, 2) }}</td>
                     <td>{{ number_format($sale->discount, 2) }}</td>
