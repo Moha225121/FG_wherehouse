@@ -26,8 +26,8 @@
                 @forelse($items as $item)
                     <tr>
                         <td><span class="badge bg-secondary fs-6">{{ $item->shelf_number ?? 'بدون رقم' }}</span></td>
-                        <td>{{ $item->carModel->name }}</td>
-                        <td>{{ $item->glassPosition->name }}</td>
+                        <td>{{ $item->carModel->name ?? 'غير محدد' }}</td>
+                        <td>{{ $item->glassPosition->name ?? 'غير محدد' }}</td>
                         <td>{{ $item->glass_type ?? 'عادي' }}</td>
                         <td class="text-success fw-bold">{{ number_format($item->retail_price, 2) }} د.ل</td>
                         <td>
@@ -54,7 +54,7 @@
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                             </div>
                                             <div class="modal-body">
-                                                <p><strong>الصنف:</strong> {{ $item->carModel->name }} - {{ $item->glassPosition->name }}</p>
+                                                <p><strong>الصنف:</strong> {{ $item->carModel->name ?? 'غير محدد' }} - {{ $item->glassPosition->name ?? 'غير محدد' }}</p>
                                                 <p><strong>المتوفر حالياً:</strong> {{ $item->stock_quantity }} قطع</p>
                                                 
                                                 <div class="mb-3">
