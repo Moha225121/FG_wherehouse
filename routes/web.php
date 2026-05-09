@@ -105,6 +105,47 @@ Route::get('/debug-items-view', function() {
     }
 });
 
+Route::get('/debug-view-error', function() {
+    try {
+        $items = \App\Models\Item::with(['branch', 'carModel', 'glassPosition'])
+            ->orderBy('id', 'desc')
+            ->paginate(50);
+        
+        // اختبر كل item
+        foreach($items as $item) {
+            $test = [
+                'id' => $item->id,
+                'branch' => $item->branch ? $item->branch->name : 'NULL BRANCH',
+                'carModel' => $item->carModel ? $item->carModel->name : 'NULL CARMODEL',
+                'glassPosition' => $item->glassPosition ? $item->glassPosition->name : 'NULL POSITION',
+                'retail_price' => $item->retail_price,
+                'wholesale_price' => $item->wholesale_price,
+                'stock_quantity' => $item->stock_quantity,
+                'damaged_quantity' => $item->damaged_quantity,
+            ];
+        }
+        
+        return response()->json([
+            'success' => true,
+            'items' => $items->getCollection()->map(function($item) {
+                return [
+                    'id' => $item->id,
+                    'branch' => $item->branch ? $item->branch->name : 'NULL',
+                    'carModel' => $item->carModel ? $item->carModel->name : 'NULL',
+                    'glassPosition' => $item->glassPosition ? $item->glassPosition->name : 'NULL',
+                    'damaged_quantity' => $item->damaged_quantity,
+                ];
+            })
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'error' => $e->getMessage(),
+            'file' => str_replace(base_path(), '', $e->getFile()),
+            'line' => $e->getLine(),
+        ]);
+    }
+});
+
 // Authentication Routes
 Route::redirect('/', '/login');
 Route::get('/login',[AuthController::class, 'showLoginForm'])->name('login.form');
