@@ -12,7 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('employees', function (Blueprint $table) {
-            $table->string('last_reset_month', 7)->nullable()->after('salary_reset_day');
+            if (!Schema::hasColumn('employees', 'last_reset_month')) {
+                $table->string('last_reset_month', 7)->nullable()->after('salary_reset_day');
+            }
         });
     }
 

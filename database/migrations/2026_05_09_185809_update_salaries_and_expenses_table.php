@@ -14,12 +14,16 @@ return new class extends Migration
         Schema::table('employees', function (Blueprint $table) {
             $table->string('username')->nullable()->change();
             $table->string('password')->nullable()->change();
-            $table->integer('salary_reset_day')->default(1)->after('remaining_salary');
+            if (!Schema::hasColumn('employees', 'salary_reset_day')) {
+                $table->integer('salary_reset_day')->default(1)->after('remaining_salary');
+            }
         });
 
         Schema::table('withdrawals', function (Blueprint $table) {
             $table->unsignedBigInteger('employeeID')->nullable()->change();
-            $table->enum('type', ['salary', 'expense'])->default('salary')->after('id');
+            if (!Schema::hasColumn('withdrawals', 'type')) {
+                $table->enum('type', ['salary', 'expense'])->default('salary')->after('id');
+            }
         });
     }
 
