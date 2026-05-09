@@ -31,7 +31,7 @@
                                 <small class="text-muted">غير محدد</small>
                             @endif
                         </td>
-                        <td>{{ $sale->item->carModel->name }} - {{ $sale->item->glassPosition->name }}</td>
+                        <td>{{ $sale->item->carModel->name ?? 'غير معروف' }} - {{ $sale->item->glassPosition->name ?? 'غير معروف' }}</td>
                         <td class="fw-bold">{{ number_format($sale->sold_price, 2) }}</td>
                         <td>
                             @if($sale->discount > 0) <span class="text-danger">خصم: {{ $sale->discount }}</span>

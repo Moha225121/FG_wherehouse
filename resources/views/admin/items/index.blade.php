@@ -29,8 +29,8 @@
                 @foreach($items as $item)
                     <tr>
                         <td><span class="badge bg-secondary">{{ $item->branch->name }}</span></td>
-                        <td>{{ $item->carModel->name }}</td>
-                        <td>{{ $item->glassPosition->name }} <br><small class="text-muted">{{ $item->glass_type }}</small></td>
+                        <td>{{ $item->carModel->name ?? 'غير محدد' }}</td>
+                        <td>{{ $item->glassPosition->name ?? 'غير محدد' }} <br><small class="text-muted">{{ $item->glass_type }}</small></td>
                         <td>{{ $item->shelf_number }}</td>
                         <td class="fw-bold fs-5 {{ $item->stock_quantity == 0 ? 'text-danger' : 'text-success' }}">{{ $item->stock_quantity }}</td>
                         <td class="fw-bold fs-5 text-warning">{{ $item->damaged_quantity ?? 0 }}</td>
