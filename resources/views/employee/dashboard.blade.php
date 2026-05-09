@@ -55,9 +55,9 @@
                     @foreach($lowStockItems as $item)
                         <tr>
                             <td>{{ $item->shelf_number ?? 'غير محدد' }}</td>
-                            <td>{{ $item->carModel->name }}</td>
-                            <td>{{ $item->glassPosition->name }}</td>
-                            <td>{{ $item->glass_type }}</td>
+                            <td>{{ $item->carModel->name ?? 'غير محدد' }}</td>
+                            <td>{{ $item->glassPosition->name ?? 'غير محدد' }}</td>
+                            <td>{{ $item->glass_type ?? '-' }}</td>
                             <td class="text-danger fw-bold">{{ $item->stock_quantity }}</td>
                         </tr>
                     @endforeach
