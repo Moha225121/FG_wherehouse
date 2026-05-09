@@ -28,6 +28,7 @@ Route::get('/test-session', function() {
         'session_cookie' => config('session.cookie'),
         'session_domain' => config('session.domain'),
         'session_same_site' => config('session.same_site'),
+        'session_secure' => config('session.secure'),
     ]);
 });
 
