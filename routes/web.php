@@ -32,6 +32,46 @@ Route::get('/test-session', function() {
     ]);
 });
 
+Route::get('/debug-error', function() {
+    try {
+        $sales = \App\Models\Sale::with([
+            'branch', 'employee', 'admin', 
+            'item.carModel', 'item.glassPosition'
+        ])->orderBy('id', 'desc')->paginate(50);
+        
+        return response()->json([
+            'sales_ok' => true,
+            'count' => $sales->total()
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'error' => $e->getMessage(),
+            'file' => $e->getFile(),
+            'line' => $e->getLine(),
+            'trace' => $e->getTraceAsString()
+        ]);
+    }
+});
+
+Route::get('/debug-items', function() {
+    try {
+        $items = \App\Models\Item::with([
+            'branch', 'carModel', 'glassPosition'
+        ])->orderBy('id', 'desc')->paginate(50);
+        
+        return response()->json([
+            'items_ok' => true,
+            'count' => $items->total()
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'error' => $e->getMessage(),
+            'file' => $e->getFile(),
+            'line' => $e->getLine(),
+        ]);
+    }
+});
+
 // Authentication Routes
 Route::redirect('/', '/login');
 Route::get('/login',[AuthController::class, 'showLoginForm'])->name('login.form');
