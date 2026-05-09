@@ -26,12 +26,12 @@ services:
     type: SECRET
   - key: DB_CONNECTION
     scope: RUN_TIME
-    value: mysql
+    value: pgsql
   - key: DB_URL
     scope: RUN_TIME
     value: ${db.DATABASE_URL}
 databases:
-- engine: MYSQL
+- engine: POSTGRESQL
   name: db
   size: db-s-dev-database
-  version: "8"
+  version: "15"
