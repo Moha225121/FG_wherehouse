@@ -34,6 +34,61 @@
     </div>
 </div>
 
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="card border-primary shadow">
+            <div class="card-header bg-primary text-white">بيانات المرتب والسحب</div>
+            <div class="card-body">
+                <div class="d-flex justify-content-between mb-2">
+                    <span>المرتب الكلي:</span>
+                    <span class="fw-bold">{{ number_format(Auth::guard('employee')->user()->salary, 2) }} د.ل</span>
+                </div>
+                <div class="d-flex justify-content-between mb-2">
+                    <span>الرصيد المتبقي:</span>
+                    <span class="fw-bold text-success">{{ number_format(Auth::guard('employee')->user()->remaining_salary, 2) }} د.ل</span>
+                </div>
+                <div class="d-flex justify-content-between mb-3">
+                    <span>حد السحب اليومي:</span>
+                    <span class="fw-bold text-danger">{{ number_format(Auth::guard('employee')->user()->daily_withdrawal_limit, 2) }} د.ل</span>
+                </div>
+                <button class="btn btn-outline-danger w-100" data-bs-toggle="modal" data-bs-target="#withdrawModal">
+                    <i class="fa-solid fa-money-bill-transfer"></i> سحب سلفة من المرتب
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal السحب -->
+<div class="modal fade" id="withdrawModal" tabindex="-1">
+    <div class="modal-dialog">
+        <form action="{{ route('employee.withdrawals.store') }}" method="POST">
+            @csrf
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">طلب سحب سلفة</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">المبلغ المطلوب (د.ل)</label>
+                        <input type="number" step="0.01" name="amount" class="form-control" required min="1">
+                        <small class="text-muted">سيتم خصم هذا المبلغ من رصيد مرتبك فوراً.</small>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">ملاحظة</label>
+                        <textarea name="note" class="form-control" rows="2"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                    <button type="submit" class="btn btn-danger">تأكيد السحب</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
 <!-- تنبيهات النواقص -->
 <div class="card shadow">
     <div class="card-header bg-danger text-white">

@@ -44,9 +44,20 @@
                         <div class="col-md-4">
                             <label class="form-label fw-bold">حالة الحساب *</label>
                             <select name="status" class="form-select" required>
-                                <option value="active" {{ old('status', $employee->status) == 'active' ? 'selected' : '' }}>نشط (يسمح بالدخول)</option>
-                                <option value="inactive" {{ old('status', $employee->status) == 'inactive' ? 'selected' : '' }}>موقوف (يمنع الدخول)</option>
+                                <option value="active" {{ old('status', $employee->status) == 'active' ? 'selected' : '' }}>نشط</option>
+                                <option value="inactive" {{ old('status', $employee->status) == 'inactive' ? 'selected' : '' }}>موقوف</option>
                             </select>
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold text-success">المرتب الشهري (د.ل) *</label>
+                            <input type="number" step="0.01" name="salary" class="form-control" required value="{{ old('salary', $employee->salary) }}">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold text-danger">حد السحب اليومي (د.ل) *</label>
+                            <input type="number" step="0.01" name="daily_withdrawal_limit" class="form-control" required value="{{ old('daily_withdrawal_limit', $employee->daily_withdrawal_limit) }}">
                         </div>
                     </div>
 

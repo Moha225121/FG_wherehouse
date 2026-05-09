@@ -14,10 +14,11 @@
             <thead class="table-dark">
                 <tr>
                     <th>الاسم</th>
-                    <th>اسم المستخدم (للدخول)</th>
-                    <th>الفرع التابع له</th>
+                    <th>اسم المستخدم</th>
+                    <th>الفرع</th>
+                    <th>المرتب</th>
+                    <th>حد السحب</th>
                     <th>الحالة</th>
-                    <th>تاريخ الإضافة</th>
                     <th>إجراءات</th>
                 </tr>
             </thead>
@@ -25,8 +26,10 @@
                 @foreach($employees as $employee)
                     <tr>
                         <td class="fw-bold">{{ $employee->name }}</td>
-                        <td><span class="badge bg-secondary fs-6">{{ $employee->username }}</span></td>
+                        <td><span class="badge bg-light text-dark">{{ $employee->username }}</span></td>
                         <td>{{ $employee->branch->name }}</td>
+                        <td class="text-success fw-bold">{{ number_format($employee->salary, 2) }} د.ل</td>
+                        <td class="text-primary">{{ number_format($employee->daily_withdrawal_limit, 2) }} د.ل</td>
                         <td>
                             @if($employee->status == 'active')
                                 <span class="badge bg-success">نشط</span>
@@ -34,7 +37,6 @@
                                 <span class="badge bg-danger">موقوف</span>
                             @endif
                         </td>
-                        <td dir="ltr" class="text-end">{{ $employee->created_at->format('Y-m-d') }}</td>
                         <td>
                             <a href="{{ route('admin.employees.edit', $employee->id) }}" class="btn btn-warning btn-sm">
                                 <i class="fa-solid fa-pen"></i> تعديل

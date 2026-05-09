@@ -32,14 +32,28 @@ class AdminEmployeeController extends Controller
             'username' => 'required|string|unique:employees,username',
             'password' => 'required|string|min:6',
             'status' => 'required|in:active,inactive',
-        ], [],['branchID' => 'الفرع', 'name' => 'اسم الموظف', 'username' => 'اسم المستخدم', 'password' => 'كلمة المرور']);
+            'salary' => 'nullable|numeric|min:0',
+            'daily_withdrawal_limit' => 'nullable|numeric|min:0',
+        ], [], [
+            'branchID' => 'الفرع',
+            'name' => 'اسم الموظف',
+            'username' => 'اسم المستخدم',
+            'password' => 'كلمة المرور',
+            'salary' => 'المرتب',
+            'daily_withdrawal_limit' => 'حد السحب اليومي'
+        ]);
+
+        $salary = $request->input('salary', 0);
 
         Employee::create([
             'branchID' => $request->branchID,
             'name' => $request->name,
             'username' => $request->username,
-            'password' => Hash::make($request->password), // Hashing the password
+            'password' => Hash::make($request->password),
             'status' => $request->status,
+            'salary' => $salary,
+            'remaining_salary' => $salary,
+            'daily_withdrawal_limit' => $request->input('daily_withdrawal_limit', 0),
         ]);
 
         return redirect()->route('admin.employees.index')->with('success', 'تم إضافة الموظف بنجاح.');
@@ -57,15 +71,26 @@ class AdminEmployeeController extends Controller
             'branchID' => 'required|exists:branches,id',
             'name' => 'required|string|max:255',
             'username' => 'required|string|unique:employees,username,' . $employee->id,
-            'password' => 'nullable|string|min:6', // Optional during update
+            'password' => 'nullable|string|min:6',
             'status' => 'required|in:active,inactive',
+            'salary' => 'nullable|numeric|min:0',
+            'daily_withdrawal_limit' => 'nullable|numeric|min:0',
+        ], [], [
+            'salary' => 'المرتب',
+            'daily_withdrawal_limit' => 'حد السحب اليومي'
         ]);
 
-        $data = $request->only(['branchID', 'name', 'username', 'status']);
+        $data = $request->only(['branchID', 'name', 'username', 'status', 'salary', 'daily_withdrawal_limit']);
         
-        // Only update password if the admin typed a new one
         if ($request->filled('password')) {
             $data['password'] = Hash::make($request->password);
+        }
+
+        // If salary changed, we might want to adjust remaining_salary?
+        // Let's assume for now the admin just sets the base salary.
+        // We'll update remaining_salary only if it was never set (0).
+        if ($employee->salary == 0 && $request->salary > 0) {
+            $data['remaining_salary'] = $request->salary;
         }
 
         $employee->update($data);

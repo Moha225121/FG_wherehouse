@@ -207,4 +207,7 @@ Route::middleware('auth:employee')->prefix('employee')->name('employee.')->group
     // Reports
     Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
     Route::get('/reports/pdf', [ReportController::class, 'exportPdf'])->name('reports.pdf');
+
+    // Withdrawals
+    Route::post('/withdrawals', [App\Http\Controllers\Employee\WithdrawalController::class, 'store'])->name('withdrawals.store');
 });
