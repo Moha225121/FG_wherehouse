@@ -19,13 +19,20 @@ class SaleController extends Controller
         // Searching by shelf_number or glass_type only.
         $query = Item::with(['carModel', 'glassPosition'])
             ->where('branchID', $branchID)
-            ->where('stock_quantity', '>', 0);
+            ->where('stock_quantity', '>', 0)
+            ->orderBy('shelf_number', 'asc');
 
-        if ($request->has('search')) {
+        if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function($q) use ($search) {
                 $q->where('shelf_number', 'like', "%{$search}%")
-                  ->orWhere('glass_type', 'like', "%{$search}%");
+                  ->orWhere('glass_type', 'like', "%{$search}%")
+                  ->orWhereHas('carModel', function($sq) use ($search) {
+                      $sq->where('name', 'like', "%{$search}%");
+                  })
+                  ->orWhereHas('glassPosition', function($sq) use ($search) {
+                      $sq->where('name', 'like', "%{$search}%");
+                  });
             });
         }
 

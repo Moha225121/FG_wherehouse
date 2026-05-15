@@ -10,7 +10,7 @@
     <div class="card-body">
         <form method="GET" action="{{ route('employee.pos') }}" class="row g-3">
             <div class="col-md-10">
-                <input type="text" name="search" class="form-control" placeholder="ابحث برقم الرف (abc-123) أو نوع الزجاج..." value="{{ request('search') }}">
+                <input type="text" name="search" class="form-control" placeholder="بحث برقم الرف، نوع السيارة، موقع الزجاج أو النوع" value="{{ request('search') }}">
             </div>
             <div class="col-md-2">
                 <button type="submit" class="btn btn-primary w-100"><i class="fa-solid fa-search"></i> بحث</button>

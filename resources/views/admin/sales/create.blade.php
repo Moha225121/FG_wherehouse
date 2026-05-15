@@ -17,7 +17,7 @@
                 </select>
             </div>
             <div class="col-md-6">
-                <input type="text" name="search" class="form-control" placeholder="بحث برقم الرف أو نوع الزجاج" value="{{ request('search') }}">
+                <input type="text" name="search" class="form-control" placeholder="بحث برقم الرف، الفرع، نوع السيارة، موقع الزجاج أو النوع" value="{{ request('search') }}">
             </div>
             <div class="col-md-2">
                 <button type="submit" class="btn btn-primary w-100"><i class="fa-solid fa-search"></i> بحث</button>

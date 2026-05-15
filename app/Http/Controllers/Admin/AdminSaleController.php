@@ -12,12 +12,28 @@ use Illuminate\Support\Facades\Log;
 
 class AdminSaleController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        // View all sales globally, newest first
-        $sales = Sale::with(['branch', 'employee', 'admin', 'item.carModel', 'item.glassPosition'])
-                     ->orderBy('id', 'desc')
-                     ->paginate(50);
+        $query = Sale::with(['branch', 'employee', 'admin', 'item.carModel', 'item.glassPosition'])
+                     ->orderBy('id', 'desc');
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('id', 'like', "%{$search}%")
+                  ->orWhereHas('branch', function($sq) use ($search) {
+                      $sq->where('name', 'like', "%{$search}%");
+                  })
+                  ->orWhereHas('employee', function($sq) use ($search) {
+                      $sq->where('name', 'like', "%{$search}%");
+                  })
+                  ->orWhereHas('item.carModel', function($sq) use ($search) {
+                      $sq->where('name', 'like', "%{$search}%");
+                  });
+            });
+        }
+
+        $sales = $query->paginate(50);
 
         return view('admin.sales.index', compact('sales'));
     }
@@ -28,7 +44,7 @@ class AdminSaleController extends Controller
 
         $query = Item::with(['branch', 'carModel', 'glassPosition'])
             ->where('stock_quantity', '>', 0)
-            ->orderBy('id', 'desc');
+            ->orderBy('shelf_number', 'asc');
 
         if ($request->filled('branchID')) {
             $query->where('branchID', $request->branchID);
@@ -38,7 +54,16 @@ class AdminSaleController extends Controller
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('shelf_number', 'like', "%{$search}%")
-                    ->orWhere('glass_type', 'like', "%{$search}%");
+                    ->orWhere('glass_type', 'like', "%{$search}%")
+                    ->orWhereHas('carModel', function($sq) use ($search) {
+                        $sq->where('name', 'like', "%{$search}%");
+                    })
+                    ->orWhereHas('glassPosition', function($sq) use ($search) {
+                        $sq->where('name', 'like', "%{$search}%");
+                    })
+                    ->orWhereHas('branch', function($sq) use ($search) {
+                        $sq->where('name', 'like', "%{$search}%");
+                    });
             });
         }
 

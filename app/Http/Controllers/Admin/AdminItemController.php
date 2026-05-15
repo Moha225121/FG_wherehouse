@@ -16,7 +16,7 @@ class AdminItemController extends Controller
     public function index()
     {
         $items = Item::with(['branch', 'carModel', 'glassPosition'])
-                     ->orderBy('id', 'desc')
+                     ->orderBy('shelf_number', 'asc')
                      ->paginate(50);
 
         return view('admin.items.index', compact('items'));

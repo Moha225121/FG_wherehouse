@@ -1,7 +1,17 @@
 @extends('layouts.app')
 
 @section('content')
-<h2 class="mb-4"><i class="fa-solid fa-file-invoice"></i> سجل المبيعات الشامل</h2>
+<div class="row mb-4">
+    <div class="col-md-6">
+        <h2 class="mb-0"><i class="fa-solid fa-file-invoice"></i> سجل المبيعات الشامل</h2>
+    </div>
+    <div class="col-md-6">
+        <form action="{{ route('admin.sales.index') }}" method="GET" class="d-flex">
+            <input type="text" name="search" class="form-control me-2" placeholder="بحث برقم الفاتورة، الفرع، الموظف أو نوع السيارة..." value="{{ request('search') }}">
+            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-search"></i></button>
+        </form>
+    </div>
+</div>
 
 <div class="card shadow">
     <div class="card-body table-responsive">
