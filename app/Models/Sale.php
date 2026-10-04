@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 class Sale extends Model {
     protected $fillable =[
         'branchID', 'employeeID', 'adminID', 'itemID', 'quantity', 
-        'system_price', 'sold_price', 'payment_method', 'discount', 'overprice', 'note', 'status'
+        'system_price', 'sold_price', 'payment_method', 'sale_source', 'discount', 'overprice', 'note', 'status'
     ];
     public function branch() { return $this->belongsTo(Branch::class, 'branchID'); }
     public function employee() { return $this->belongsTo(Employee::class, 'employeeID'); }

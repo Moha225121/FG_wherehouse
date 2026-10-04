@@ -42,6 +42,8 @@
     <div class="col-md-3">
         <div class="card bg-secondary text-white shadow"><div class="card-body"><h5>مصرف</h5><h3 class="fw-bold">{{ number_format($bankSales, 2) }} د.ل</h3></div></div>
     </div>
+    <div class="col-md-3"><div class="card bg-dark text-white shadow"><div class="card-body"><h5>من المخزن</h5><h3 class="fw-bold">{{ number_format($warehouseSales, 2) }} د.ل</h3></div></div></div>
+    <div class="col-md-3"><div class="card bg-warning text-dark shadow"><div class="card-body"><h5>من المحل</h5><h3 class="fw-bold">{{ number_format($shopSales, 2) }} د.ل</h3></div></div></div>
     <div class="col-md-3">
         <div class="card bg-primary text-white shadow">
             <div class="card-body">
@@ -81,6 +83,7 @@
                     <th>السعر الافتراضي</th>
                     <th>سعر البيع الفعلي</th>
                     <th>طريقة الدفع</th>
+                    <th>مصدر البيع</th>
                     <th>الفرق (خصم / زيادة)</th>
                     <th>ملاحظات</th>
                 </tr>
@@ -94,6 +97,7 @@
                         <td>{{ number_format($sale->system_price, 2) }}</td>
                         <td class="fw-bold">{{ number_format($sale->sold_price, 2) }}</td>
                         <td><span class="badge {{ $sale->payment_method === 'cash' ? 'bg-success' : 'bg-secondary' }}">{{ $sale->payment_method === 'cash' ? 'كاش' : 'مصرف' }}</span></td>
+                        <td><span class="badge {{ $sale->sale_source === 'shop' ? 'bg-warning text-dark' : 'bg-dark' }}">{{ $sale->sale_source === 'shop' ? 'من المحل' : 'من المخزن' }}</span></td>
                         <td>
                             @if($sale->discount > 0)
                                 <span class="text-danger">خصم: {{ number_format($sale->discount, 2) }}</span>
@@ -106,7 +110,7 @@
                         <td>{{ $sale->note ?? '-' }}</td>
                     </tr>
                 @empty
-                    <tr><td colspan="8" class="text-center">لا توجد مبيعات في هذه الفترة.</td></tr>
+                    <tr><td colspan="9" class="text-center">لا توجد مبيعات في هذه الفترة.</td></tr>
                 @endforelse
             </tbody>
         </table>

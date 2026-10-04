@@ -76,6 +76,13 @@
                                                         <option value="cash">كاش</option><option value="bank">مصرف</option>
                                                     </select>
                                                 </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label fw-bold">مصدر البيع *</label>
+                                                    <select name="sale_source" class="form-select" required>
+                                                        <option value="" selected disabled>-- اختر مصدر البيع --</option>
+                                                        <option value="shop">من المحل</option><option value="warehouse">من المخزن</option>
+                                                    </select>
+                                                </div>
                                                 
                                                 <div class="mb-3">
                                                     <label class="form-label">ملاحظة للبيع النهائي (اختياري)</label>

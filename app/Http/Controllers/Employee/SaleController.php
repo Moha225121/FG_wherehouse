@@ -55,6 +55,7 @@ class SaleController extends Controller
             'itemID' => 'required|exists:items,id',
             'note' => 'nullable|string',
             'payment_method' => 'required|in:cash,bank',
+            'sale_source' => 'required|in:shop,warehouse',
         ], [],['itemID' => 'الصنف']);
 
         $employee = Auth::guard('employee')->user();
@@ -86,6 +87,7 @@ class SaleController extends Controller
                 'system_price' => $systemPrice,
                 'sold_price' => $soldPrice,
                 'payment_method' => $request->payment_method,
+                'sale_source' => $request->sale_source,
                 'discount' => $discount,
                 'overprice' => $overprice,
                 'note' => $request->note,
