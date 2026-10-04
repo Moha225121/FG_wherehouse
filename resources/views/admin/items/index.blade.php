@@ -9,6 +9,23 @@
     </a>
 </div>
 
+<div class="card shadow-sm mb-4">
+    <div class="card-header bg-light fw-bold"><i class="fa-solid fa-filter"></i> بحث متقدم في المخزون المركزي</div>
+    <div class="card-body">
+        <form method="GET" action="{{ route('admin.items.index') }}" class="row g-3">
+            <div class="col-lg-4 col-md-6">
+                <label class="form-label">بحث شامل</label>
+                <input type="text" name="search" class="form-control" value="{{ request('search') }}" placeholder="السيارة، الرف، الفرع، موقع الزجاج أو النوع">
+            </div>
+            <div class="col-lg-2 col-md-3"><label class="form-label">الفرع</label><select name="branchID" class="form-select"><option value="">كل الفروع</option>@foreach($branches as $branch)<option value="{{ $branch->id }}" {{ request('branchID') == $branch->id ? 'selected' : '' }}>{{ $branch->name }}</option>@endforeach</select></div>
+            <div class="col-lg-2 col-md-3"><label class="form-label">السيارة</label><select name="carModelID" class="form-select"><option value="">كل السيارات</option>@foreach($carModels as $model)<option value="{{ $model->id }}" {{ request('carModelID') == $model->id ? 'selected' : '' }}>{{ $model->name }}</option>@endforeach</select></div>
+            <div class="col-lg-2 col-md-3"><label class="form-label">موقع الزجاج</label><select name="glassPositionID" class="form-select"><option value="">كل المواقع</option>@foreach($glassPositions as $position)<option value="{{ $position->id }}" {{ request('glassPositionID') == $position->id ? 'selected' : '' }}>{{ $position->name }}</option>@endforeach</select></div>
+            <div class="col-lg-2 col-md-3"><label class="form-label">حالة المخزون</label><select name="stock_status" class="form-select"><option value="">كل الحالات</option><option value="available" {{ request('stock_status') === 'available' ? 'selected' : '' }}>متوفر</option><option value="low" {{ request('stock_status') === 'low' ? 'selected' : '' }}>منخفض (1-2)</option><option value="out" {{ request('stock_status') === 'out' ? 'selected' : '' }}>نافد</option></select></div>
+            <div class="col-12 d-flex gap-2"><button class="btn btn-primary"><i class="fa-solid fa-search"></i> تطبيق البحث</button><a href="{{ route('admin.items.index') }}" class="btn btn-outline-secondary">مسح الفلاتر</a></div>
+        </form>
+    </div>
+</div>
+
 <div class="card shadow">
     <div class="card-body table-responsive">
         <table class="table table-bordered align-middle">

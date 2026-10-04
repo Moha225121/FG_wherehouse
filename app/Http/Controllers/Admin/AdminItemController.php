@@ -13,13 +13,33 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminItemController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $items = Item::with(['branch', 'carModel', 'glassPosition'])
-                     ->orderBy('shelf_number', 'asc')
-                     ->paginate(50);
+        $query = Item::with(['branch', 'carModel', 'glassPosition'])->orderBy('shelf_number', 'asc');
 
-        return view('admin.items.index', compact('items'));
+        if ($request->filled('search')) {
+            $search = trim($request->search);
+            $query->where(function ($q) use ($search) {
+                $q->where('shelf_number', 'like', "%{$search}%")
+                    ->orWhere('glass_type', 'like', "%{$search}%")
+                    ->orWhereHas('branch', fn ($sq) => $sq->where('name', 'like', "%{$search}%"))
+                    ->orWhereHas('carModel', fn ($sq) => $sq->where('name', 'like', "%{$search}%"))
+                    ->orWhereHas('glassPosition', fn ($sq) => $sq->where('name', 'like', "%{$search}%"));
+            });
+        }
+        $query->when($request->filled('branchID'), fn ($q) => $q->where('branchID', $request->branchID));
+        $query->when($request->filled('carModelID'), fn ($q) => $q->where('carModelID', $request->carModelID));
+        $query->when($request->filled('glassPositionID'), fn ($q) => $q->where('glassPositionID', $request->glassPositionID));
+        if ($request->stock_status === 'available') $query->where('stock_quantity', '>', 0);
+        if ($request->stock_status === 'out') $query->where('stock_quantity', '<=', 0);
+        if ($request->stock_status === 'low') $query->whereBetween('stock_quantity', [1, 2]);
+
+        $items = $query->paginate(50)->withQueryString();
+        $branches = Branch::orderBy('name')->get();
+        $carModels = CarModel::orderBy('name')->get();
+        $glassPositions = GlassPosition::orderBy('name')->get();
+
+        return view('admin.items.index', compact('items', 'branches', 'carModels', 'glassPositions'));
     }
 
     public function create()
