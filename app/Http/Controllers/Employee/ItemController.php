@@ -12,16 +12,19 @@ use Illuminate\Support\Facades\DB;
 
 class ItemController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $branchID = Auth::guard('employee')->user()->branchID;
         
-        $items = Item::with(['carModel', 'glassPosition'])
+        $query = Item::with(['carModel', 'glassPosition'])
                      ->where('branchID', $branchID)
-                     ->orderBy('id', 'desc')
-                     ->get();
+                     ->orderBy('id', 'desc');
+        if ($request->filled('search')) { $s = $request->search; $query->where(function($q) use ($s) { $q->where('shelf_number','like',"%$s%")->orWhere('glass_type','like',"%$s%")->orWhereHas('carModel',fn($x)=>$x->where('name','like',"%$s%"))->orWhereHas('glassPosition',fn($x)=>$x->where('name','like',"%$s%")); }); }
+        if ($request->filled('glassPositionID')) $query->where('glassPositionID', $request->glassPositionID);
+        $items = $query->get();
+        $glassPositions = GlassPosition::orderBy('name')->get();
                      
-        return view('employee.items.index', compact('items'));
+        return view('employee.items.index', compact('items','glassPositions'));
     }
 
     public function create()

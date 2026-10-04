@@ -8,6 +8,8 @@
     </a>
 </div>
 
+<form method="GET" class="card card-body mb-3"><div class="row g-2"><div class="col-md-7"><input name="search" value="{{ request('search') }}" class="form-control" placeholder="بحث بالسيارة أو الرف أو نوع الزجاج"></div><div class="col-md-3"><select name="glassPositionID" class="form-select"><option value="">كل مواقع الزجاج</option>@foreach($glassPositions as $p)<option value="{{ $p->id }}" {{ request('glassPositionID')==$p->id?'selected':'' }}>{{ $p->name }}</option>@endforeach</select></div><div class="col-md-2"><button class="btn btn-primary w-100">بحث وتصفية</button></div></div></form>
+
 <div class="card shadow">
     <div class="card-body table-responsive">
         <table class="table table-hover align-middle">

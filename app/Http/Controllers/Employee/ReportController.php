@@ -104,6 +104,8 @@ class ReportController extends Controller
         $totalOverprice = $sales->sum('overprice');
         $totalExternalSales = $externalSales->sum('amount');
         $grandTotal = $totalNormalSales + $totalExternalSales;
+        $cashSales = $sales->where('payment_method', 'cash')->sum('sold_price');
+        $bankSales = $sales->where('payment_method', 'bank')->sum('sold_price');
 
         return [
             'sales' => $sales,
@@ -113,6 +115,8 @@ class ReportController extends Controller
             'totalOverprice' => $totalOverprice,
             'totalExternalSales' => $totalExternalSales,
             'grandTotal' => $grandTotal,
+            'cashSales' => $cashSales,
+            'bankSales' => $bankSales,
             'period' => $period,
             'reportTitle' => $reportTitle,
         ];

@@ -15,8 +15,6 @@ class SaleController extends Controller
     {
         $branchID = Auth::guard('employee')->user()->branchID;
         
-        // Items search: no car model search per requirements. 
-        // Searching by shelf_number or glass_type only.
         $query = Item::with(['carModel', 'glassPosition'])
             ->where('branchID', $branchID)
             ->where('stock_quantity', '>', 0)
@@ -55,7 +53,8 @@ class SaleController extends Controller
         }
         $request->validate([
             'itemID' => 'required|exists:items,id',
-            'note' => 'nullable|string'
+            'note' => 'nullable|string',
+            'payment_method' => 'required|in:cash,bank',
         ], [],['itemID' => 'الصنف']);
 
         $employee = Auth::guard('employee')->user();
@@ -86,6 +85,7 @@ class SaleController extends Controller
                 'quantity' => 1,
                 'system_price' => $systemPrice,
                 'sold_price' => $soldPrice,
+                'payment_method' => $request->payment_method,
                 'discount' => $discount,
                 'overprice' => $overprice,
                 'note' => $request->note,

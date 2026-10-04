@@ -37,6 +37,12 @@
         </div>
     </div>
     <div class="col-md-3">
+        <div class="card bg-success text-white shadow"><div class="card-body"><h5>كاش</h5><h3 class="fw-bold">{{ number_format($cashSales, 2) }} د.ل</h3></div></div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-secondary text-white shadow"><div class="card-body"><h5>مصرف</h5><h3 class="fw-bold">{{ number_format($bankSales, 2) }} د.ل</h3></div></div>
+    </div>
+    <div class="col-md-3">
         <div class="card bg-primary text-white shadow">
             <div class="card-body">
                 <h5>مبيعات الزجاج فقط</h5>
@@ -74,6 +80,7 @@
                     <th>القطعة</th>
                     <th>السعر الافتراضي</th>
                     <th>سعر البيع الفعلي</th>
+                    <th>طريقة الدفع</th>
                     <th>الفرق (خصم / زيادة)</th>
                     <th>ملاحظات</th>
                 </tr>
@@ -86,6 +93,7 @@
                         <td>{{ $sale->item->glassPosition->name ?? 'غير محدد' }}</td>
                         <td>{{ number_format($sale->system_price, 2) }}</td>
                         <td class="fw-bold">{{ number_format($sale->sold_price, 2) }}</td>
+                        <td><span class="badge {{ $sale->payment_method === 'cash' ? 'bg-success' : 'bg-secondary' }}">{{ $sale->payment_method === 'cash' ? 'كاش' : 'مصرف' }}</span></td>
                         <td>
                             @if($sale->discount > 0)
                                 <span class="text-danger">خصم: {{ number_format($sale->discount, 2) }}</span>
@@ -98,7 +106,7 @@
                         <td>{{ $sale->note ?? '-' }}</td>
                     </tr>
                 @empty
-                    <tr><td colspan="7" class="text-center">لا توجد مبيعات في هذه الفترة.</td></tr>
+                    <tr><td colspan="8" class="text-center">لا توجد مبيعات في هذه الفترة.</td></tr>
                 @endforelse
             </tbody>
         </table>

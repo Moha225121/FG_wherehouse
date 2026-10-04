@@ -7,6 +7,7 @@ use App\Models\Sale;
 use App\Models\ExternalSale;
 use App\Models\Branch;
 use App\Models\AdminWithdrawal;
+use Illuminate\Support\Facades\DB;
 
 class AdminDashboardController extends Controller
 {
@@ -35,6 +36,11 @@ class AdminDashboardController extends Controller
         // Last withdrawal time
         $lastWithdrawal = AdminWithdrawal::orderBy('withdrawn_at', 'desc')->first();
 
-        return view('admin.dashboard', compact('totalDailyRevenue', 'todaySales', 'todayExternalSales', 'branchesCount', 'availableAmount', 'lastWithdrawal'));
+        $branchSales = Sale::with('branch')->where('status', 'completed')
+            ->select('branchID', 'payment_method', DB::raw('SUM(sold_price) as total'))
+            ->groupBy('branchID', 'payment_method')->get()
+            ->groupBy('branchID');
+
+        return view('admin.dashboard', compact('totalDailyRevenue', 'todaySales', 'todayExternalSales', 'branchesCount', 'availableAmount', 'lastWithdrawal', 'branchSales'));
     }
 }

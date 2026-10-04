@@ -88,6 +88,7 @@ class AdminSaleController extends Controller
             'itemID' => 'required|exists:items,id',
             'sold_price' => 'nullable|numeric|min:0',
             'note' => 'nullable|string',
+            'payment_method' => 'required|in:cash,bank',
         ], [], [
             'itemID' => 'الصنف',
             'sold_price' => 'سعر البيع',
@@ -120,6 +121,7 @@ class AdminSaleController extends Controller
                 'quantity' => 1,
                 'system_price' => $systemPrice,
                 'sold_price' => $soldPrice,
+                'payment_method' => $request->payment_method,
                 'discount' => $discount,
                 'overprice' => $overprice,
                 'note' => $request->note,

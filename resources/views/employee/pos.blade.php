@@ -69,6 +69,13 @@
                                                     <i class="fa-solid fa-lock"></i>
                                                     سعر البيع ثابت حسب إعداد الإدارة ولا يمكن تعديله من واجهة الموظف.
                                                 </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label fw-bold">طريقة الدفع *</label>
+                                                    <select name="payment_method" class="form-select" required>
+                                                        <option value="" selected disabled>-- اختر طريقة الدفع --</option>
+                                                        <option value="cash">كاش</option><option value="bank">مصرف</option>
+                                                    </select>
+                                                </div>
                                                 
                                                 <div class="mb-3">
                                                     <label class="form-label">ملاحظة للبيع النهائي (اختياري)</label>

@@ -73,6 +73,10 @@
                                                 <p><strong>سعر النظام:</strong> {{ number_format($item->retail_price, 2) }} دينار</p>
 
                                                 <div class="mb-3">
+                                                    <label class="form-label fw-bold">طريقة الدفع *</label>
+                                                    <select name="payment_method" class="form-select" required><option value="" selected disabled>-- اختر طريقة الدفع --</option><option value="cash">كاش</option><option value="bank">مصرف</option></select>
+                                                </div>
+                                                <div class="mb-3">
                                                     <label class="form-label">سعر البيع الفعلي (اختياري)</label>
                                                     <input type="number" step="0.01" name="sold_price" class="form-control" value="{{ $item->retail_price }}">
                                                     <small class="text-muted">إذا تُرك فارغًا، سيتم البيع بسعر النظام.</small>

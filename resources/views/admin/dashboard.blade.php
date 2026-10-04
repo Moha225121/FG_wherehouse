@@ -32,6 +32,16 @@
     </div>
 </div>
 
+<div class="card shadow mb-4">
+    <div class="card-header bg-dark text-white fw-bold"><i class="fa-solid fa-code-branch"></i> إجمالي مبيعات الفروع حسب طريقة الدفع</div>
+    <div class="card-body table-responsive"><table class="table table-hover mb-0"><thead><tr><th>الفرع</th><th>كاش</th><th>مصرف</th><th>الإجمالي</th></tr></thead><tbody>
+    @foreach($branchSales as $branchID => $payments)
+        @php $branch = $payments->first()->branch; $cash = $payments->firstWhere('payment_method','cash')->total ?? 0; $bank = $payments->firstWhere('payment_method','bank')->total ?? 0; @endphp
+        <tr><td class="fw-bold">{{ $branch->name ?? 'غير محدد' }}</td><td class="text-success">{{ number_format($cash,2) }} د.ل</td><td class="text-secondary">{{ number_format($bank,2) }} د.ل</td><td class="fw-bold">{{ number_format($cash+$bank,2) }} د.ل</td></tr>
+    @endforeach
+    </tbody></table></div>
+</div>
+
 <div class="row">
     <div class="col-md-6">
         <a href="{{ route('admin.sales.index') }}" class="btn btn-outline-dark w-100 py-3 mb-3 fs-5 fw-bold shadow-sm">
