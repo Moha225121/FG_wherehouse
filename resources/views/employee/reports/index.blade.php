@@ -42,8 +42,16 @@
     <div class="col-md-3">
         <div class="card bg-secondary text-white shadow"><div class="card-body"><h5>مصرف</h5><h3 class="fw-bold">{{ number_format($bankSales, 2) }} د.ل</h3></div></div>
     </div>
-    <div class="col-md-3"><div class="card bg-dark text-white shadow"><div class="card-body"><h5>من المخزن</h5><h3 class="fw-bold">{{ number_format($warehouseSales, 2) }} د.ل</h3></div></div></div>
-    <div class="col-md-3"><div class="card bg-warning text-dark shadow"><div class="card-body"><h5>من المحل</h5><h3 class="fw-bold">{{ number_format($shopSales, 2) }} د.ل</h3></div></div></div>
+    <div class="col-md-3">
+        <button class="card bg-dark text-white shadow border-0 w-100 text-end" type="button" data-bs-toggle="collapse" data-bs-target="#warehousePaymentBreakdown" aria-expanded="false">
+            <div class="card-body"><h5>من المخزن <i class="fa-solid fa-chevron-down float-start"></i></h5><h3 class="fw-bold">{{ number_format($warehouseSales, 2) }} د.ل</h3><div class="collapse mt-2" id="warehousePaymentBreakdown"><div class="border-top pt-2 d-flex justify-content-between"><span>كاش: {{ number_format($warehouseCashSales, 2) }} د.ل</span><span>مصرف: {{ number_format($warehouseBankSales, 2) }} د.ل</span></div></div></div>
+        </button>
+    </div>
+    <div class="col-md-3">
+        <button class="card bg-warning text-dark shadow border-0 w-100 text-end" type="button" data-bs-toggle="collapse" data-bs-target="#shopPaymentBreakdown" aria-expanded="false">
+            <div class="card-body"><h5>من المحل <i class="fa-solid fa-chevron-down float-start"></i></h5><h3 class="fw-bold">{{ number_format($shopSales, 2) }} د.ل</h3><div class="collapse mt-2" id="shopPaymentBreakdown"><div class="border-top pt-2 d-flex justify-content-between"><span>كاش: {{ number_format($shopCashSales, 2) }} د.ل</span><span>مصرف: {{ number_format($shopBankSales, 2) }} د.ل</span></div></div></div>
+        </button>
+    </div>
     <div class="col-md-3">
         <div class="card bg-primary text-white shadow">
             <div class="card-body">

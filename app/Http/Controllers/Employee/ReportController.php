@@ -108,6 +108,10 @@ class ReportController extends Controller
         $bankSales = $sales->where('payment_method', 'bank')->sum('sold_price');
         $shopSales = $sales->where('sale_source', 'shop')->sum('sold_price');
         $warehouseSales = $sales->where('sale_source', 'warehouse')->sum('sold_price');
+        $shopCashSales = $sales->where('sale_source', 'shop')->where('payment_method', 'cash')->sum('sold_price');
+        $shopBankSales = $sales->where('sale_source', 'shop')->where('payment_method', 'bank')->sum('sold_price');
+        $warehouseCashSales = $sales->where('sale_source', 'warehouse')->where('payment_method', 'cash')->sum('sold_price');
+        $warehouseBankSales = $sales->where('sale_source', 'warehouse')->where('payment_method', 'bank')->sum('sold_price');
 
         return [
             'sales' => $sales,
@@ -121,6 +125,10 @@ class ReportController extends Controller
             'bankSales' => $bankSales,
             'shopSales' => $shopSales,
             'warehouseSales' => $warehouseSales,
+            'shopCashSales' => $shopCashSales,
+            'shopBankSales' => $shopBankSales,
+            'warehouseCashSales' => $warehouseCashSales,
+            'warehouseBankSales' => $warehouseBankSales,
             'period' => $period,
             'reportTitle' => $reportTitle,
         ];
